@@ -1,0 +1,33 @@
+{
+    "name": "h1ch4m/blade-component-previewer",
+    "description": "",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "H1ch4m\\BladeComponentPreviewer\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "h1ch4m"
+        }
+    ],
+    "require": {
+        "php": ">=8.0",
+        "illuminate/support": ">=8.0",
+        "laravel/framework": "^12.28"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^12.3"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "H1ch4m\\BladeComponentPreviewer\\BladeComponentPreviewerServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
