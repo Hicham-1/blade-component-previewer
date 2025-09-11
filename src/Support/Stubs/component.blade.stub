@@ -1,0 +1,13 @@
+{{-- This is the Blade template for the {{name}} component --}}
+@push('styles')
+    <link rel="stylesheet" href="{{ $componentCss ?? '' }}">
+@endpush
+
+@push('scripts')
+    <script src="{{ $componentJs ?? '' }}" defer></script>
+@endpush
+
+<div class="component-{{name}}">
+    <!-- Your HTML goes here -->
+    <p>{{name}} component content</p>
+</div>

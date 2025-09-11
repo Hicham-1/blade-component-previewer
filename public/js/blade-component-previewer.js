@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function displayComponent(component) {
         console.log(component);
 
+        htmlInput.innerText = component.blade;
     }
 
     // Initial render

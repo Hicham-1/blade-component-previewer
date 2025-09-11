@@ -1,0 +1,2 @@
+/* JS for the {{name}} component */
+console.log('Hi {{name}}');

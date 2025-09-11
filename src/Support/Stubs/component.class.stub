@@ -1,0 +1,26 @@
+<?php
+
+namespace App\View\Components\BladeComponentPreviewer;
+
+use Illuminate\View\Component;
+
+class {{className}} extends Component
+{
+
+    public function __construct()
+    {
+    }
+
+    public function render()
+    {
+        $bladeView = view('components.{{name}}');
+
+        // Automatically push CSS/JS to the stack
+        $bladeView->with([
+            'componentCss' => asset("css/components/{{name}}.css"),
+            'componentJs' => asset("js/components/{{name}}.js"),
+        ]);
+
+        return $bladeView;
+    }
+}
