@@ -7,6 +7,8 @@
     <script src="{{ $componentJs ?? '' }}" defer></script>
 @endpush
 
+
+
 <div class="component-{{name}}">
     <!-- Your HTML goes here -->
     <p>{{name}} component content</p>

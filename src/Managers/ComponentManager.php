@@ -20,14 +20,88 @@ class ComponentManager
     public function __construct()
     {
         $this->bladePath = resource_path('views/components');
-        $this->cssPath   = public_path('css/components');
-        $this->jsPath    = public_path('js/components');
+        $this->cssPath = public_path('css/components');
+        $this->jsPath = public_path('js/components');
         $this->stubsPath = __DIR__ . '/../Support/Stubs';
 
         $this->classNamespace = 'App\\View\\Components\\BladeComponentPreviewer';
         $this->classPath = app_path('View/Components/BladeComponentPreviewer');
 
         $this->ensureDirectoriesExist();
+    }
+
+    /**
+     * Get all components for UI listing
+     */
+    public function all(): array
+    {
+        $components = [];
+
+        foreach (File::files($this->bladePath) as $file) {
+            $name = pathinfo($file, PATHINFO_FILENAME);
+            $name = explode('.', $name)[0];
+            $className = str_replace(' ', '', ucwords(str_replace('-', ' ', $name)));
+
+            $components[] = [
+                'name'       => $name,
+                'bladePath'  => $file->getPathname(),
+                'cssPath'    => "{$this->cssPath}/{$name}.css",
+                'jsPath'     => "{$this->jsPath}/{$name}.js",
+                'classPath'  => "{$this->classPath}/{$className}.php",
+                'props'      => $this->getPropsFromClass("{$this->classNamespace}\\$className"),
+                'created_at' => $file->getCTime(),
+                'updated_at' => $file->getMTime(),
+            ];
+        }
+
+        return $components;
+    }
+
+    public function getPropsFromClass(string $className): array
+    {
+        if (!class_exists($className)) {
+            return [];
+        }
+
+        $reflection = new ReflectionClass($className);
+        $constructor = $reflection->getConstructor();
+
+        if (!$constructor) {
+            return [];
+        }
+
+        $props = [];
+
+        foreach ($constructor->getParameters() as $param) {
+            $name = $param->getName();
+            $type = $param->getType();
+            $isNullable = false;
+
+            $default = null;
+            $hasDefault = $param->isDefaultValueAvailable();
+
+            if ($hasDefault) {
+                $default = $param->getDefaultValue();
+
+                // If default is null, we force nullable
+                if ($default === null) {
+                    $isNullable = true;
+                }
+            }
+
+            $type = $type instanceof ReflectionNamedType
+                ? $type->getName()
+                : 'mixed';
+
+            $props[$name] = [
+                'value'    => '', // user-editable value, starts empty
+                'default'  => $type == 'array' ? json_encode($default, true) : $default,
+                'type'     => $type,
+                'nullable' => $isNullable,
+            ];
+        }
+
+        return $props;
     }
 
     protected function ensureDirectoriesExist(): void
@@ -71,7 +145,7 @@ class ComponentManager
 
         // Create PHP class
         $classStub = File::get("{$this->stubsPath}/component.class.stub");
-        $classStub = str_replace(['{{className}}', '{{name}}'], [$className, $name], $classStub);
+        $classStub = str_replace(['{{namespace}}', '{{className}}', '{{name}}'], [$this->classNamespace, $className, $name], $classStub);
         File::put($classFile, $classStub);
 
 
@@ -109,19 +183,62 @@ class ComponentManager
                 $classContent = File::get($classFile);
 
                 // Build new constructor signature
-                $propStrings = [];
+                $requiredProps = [];
+                $optionalProps = [];
+
                 foreach ($props as $prop) {
+                    $key = $prop['key'] ?? 'prop';
                     $type = $prop['type'] ?? 'mixed';
                     $nullable = $prop['nullable'] ?? false;
                     $default = array_key_exists('default', $prop) ? $prop['default'] : null;
 
-                    $typeDecl = $type !== 'mixed' ? ($nullable ? "?$type" : $type) : '';
-                    $defaultDecl = $default !== null
-                        ? ' = ' . var_export($default, true)
-                        : '';
+                    // Convert string default to proper PHP type
+                    if ($default !== null) {
+                        switch ($type) {
+                            case 'int':
+                                $default = (int) $default;
+                                break;
+                            case 'float':
+                                $default = (float) $default;
+                                break;
+                            case 'bool':
+                                $default = filter_var($default, FILTER_VALIDATE_BOOLEAN);
+                                break;
+                            case 'array':
+                                // assume empty array or JSON string
+                                if (is_string($default)) {
+                                    $default = $default === '[]' ? [] : json_decode($default, true) ?? [];
+                                }
+                                break;
+                            case 'string':
+                            case 'mixed':
+                            default:
+                                $default = (string) $default;
+                        }
+                    }
 
-                    $propStrings[] = "public {$typeDecl} \${$prop['key']}{$defaultDecl}";
+                    // Build type declaration
+                    // $typeDecl = $type !== 'mixed' ? ($nullable ? "?{$type}" : $type) : '';
+                    $typeDecl = $nullable ? "?{$type}" : $type;
+
+                    // Handle default declaration
+                    if ($nullable) {
+                        $defaultDecl = ' = null';
+                        $optionalProps[] = "public {$typeDecl} \${$key}{$defaultDecl}";
+                    } elseif ($default !== null) {
+                        if (is_array($default) && empty($default)) {
+                            $defaultDecl = ' = []';
+                        } else {
+                            $defaultDecl = ' = ' . var_export($default, true);
+                        }
+                        $optionalProps[] = "public {$typeDecl} \${$key}{$defaultDecl}";
+                    } else {
+                        $requiredProps[] = "public {$typeDecl} \${$key}";
+                    }
                 }
+
+                // Merge required first, optional last
+                $propStrings = array_merge($requiredProps, $optionalProps);
 
                 $constructor = "public function __construct(" . implode(', ', $propStrings) . ")\n    {\n        //\n    }";
 
@@ -174,64 +291,6 @@ class ComponentManager
         }
 
         return true;
-    }
-
-    /**
-     * Get all components for UI listing
-     */
-    public function all(): array
-    {
-        $components = [];
-
-        foreach (File::files($this->bladePath) as $file) {
-            $name = pathinfo($file, PATHINFO_FILENAME);
-            $name = explode('.', $name)[0];
-            $className = str_replace(' ', '', ucwords(str_replace('-', ' ', $name)));
-
-            $components[] = [
-                'name'       => $name,
-                'bladePath'  => $file->getPathname(),
-                'cssPath'    => "{$this->cssPath}/{$name}.css",
-                'jsPath'     => "{$this->jsPath}/{$name}.js",
-                'classPath'  => "{$this->classPath}/{$className}.php",
-                'props'      => $this->getPropsFromClass("{$this->classNamespace}\\$className"),
-                'created_at' => $file->getCTime(),
-                'updated_at' => $file->getMTime(),
-            ];
-        }
-
-        return $components;
-    }
-
-    public function getPropsFromClass(string $className): array
-    {
-        if (!class_exists($className)) {
-            return [];
-        }
-
-        $reflection = new ReflectionClass($className);
-        $constructor = $reflection->getConstructor();
-
-        if (!$constructor) {
-            return [];
-        }
-
-        $props = [];
-
-        foreach ($constructor->getParameters() as $param) {
-            $name = $param->getName();
-            $type = $param->getType();
-            $default = $param->isDefaultValueAvailable() ? $param->getDefaultValue() : null;
-
-            $props[$name] = [
-                'value' => $default === null ? '' : $default,
-                'default' => $default,
-                'type' => $type instanceof ReflectionNamedType ? $type->getName() : 'mixed',
-                'nullable' => $type?->allowsNull() ?? true,
-            ];
-        }
-
-        return $props;
     }
 
     /**

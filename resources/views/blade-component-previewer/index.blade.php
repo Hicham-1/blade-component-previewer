@@ -97,7 +97,16 @@
         <div class="container__input-container">
             <input type="text" class="container__input" placeholder="Param">
             {{-- <input type="text" class="container__input" placeholder="Value"> --}}
+            <select>
+                <option value="string">string</option>
+                <option value="int">int</option>
+                <option value="float">float</option>
+                <option value="bool">bool</option>
+                <option value="array">array</option>
+                <option value="mixed">mixed</option>
+            </select>
             <input type="text" class="container__input" placeholder="Default">
+            <input type="checkbox" class="container__input">
             <button class="delete-prop">Delete</button>
         </div>
     </template>
@@ -134,13 +143,19 @@
             const props = [];
             propsInput.querySelectorAll('.container__input-container').forEach(container => {
                 const inputs = container.querySelectorAll('input');
+                const select = container.querySelector('select');
+
                 const key = inputs[0].value.trim();
+                const type = select.value || 'string';
                 const def = inputs[1].value.trim();
+                const nullable = inputs[2].checked;
 
                 if (key) {
                     props.push({
                         key: key,
-                        default: def
+                        default: def,
+                        type: type,
+                        nullable: nullable,
                     });
                 }
             });
@@ -195,7 +210,7 @@
             propsInput.innerHTML = '';
             if (currentComponent.props) {
                 for (const [key, prop] of Object.entries(currentComponent.props)) {
-                    addPropRow(key, prop.default);
+                    addPropRow(key, prop.default, prop.nullable, prop.type);
                 }
             }
 
@@ -203,13 +218,16 @@
         }
 
         // ---- Prop Row Generator ---- //
-        function addPropRow(key = '', def = '') {
+        function addPropRow(key = '', def = '', nullable = false, type = 'string') {
             const node = document.getElementById('container-inputs-template').content.cloneNode(true);
             const inputs = node.querySelectorAll('input');
+            const select = node.querySelector('select');
             const deleteBtn = node.querySelector('button');
 
             inputs[0].value = key;
+            select.value = type;
             inputs[1].value = def;
+            inputs[2].checked = !!nullable;
 
             deleteBtn.addEventListener('click', e => {
                 e.preventDefault();
