@@ -33,7 +33,7 @@
         <div class="container__zone-1--row">
             <button id="new-component-btn">New Component</button>
             <button id="save-component-btn">Save Component</button>
-            <button id="delete-component-btn">Delete Component</button>
+            <button id="delete-component-btn" class="delete">Delete Component</button>
         </div>
 
         <h3>Props</h3>
@@ -78,7 +78,7 @@
             </select>
             <input type="text" class="container__input" placeholder="Default value">
             <input data-title="Nullable" type="checkbox" class="container__input">
-            <button class="delete-prop">Delete</button>
+            <button class="delete-prop delete">Delete</button>
         </div>
     </template>
 

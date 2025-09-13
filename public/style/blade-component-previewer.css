@@ -40,7 +40,7 @@ button:disabled {
 }
 
 
-button.delete-prop {
+button.delete {
     padding: 10px 20px;
     border: none;
     border-radius: 8px;
@@ -55,18 +55,18 @@ button.delete-prop {
     box-shadow: 0 4px 10px rgba(239, 68, 68, 0.25);
 }
 
-button.delete-prop:hover {
+button.delete:hover {
     background: linear-gradient(135deg, #dc2626, #b91c1c);
     box-shadow: 0 6px 14px rgba(239, 68, 68, 0.35);
     transform: translateY(-2px);
 }
 
-button.delete-prop:active {
+button.delete:active {
     transform: translateY(0);
     box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25);
 }
 
-button.delete-prop:disabled {
+button.delete:disabled {
     background: #fecaca;
     color: #991b1b;
     cursor: not-allowed;
