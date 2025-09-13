@@ -8,11 +8,8 @@
 
     <link rel="stylesheet" href="{{ url('blade-component-previewer/public/style/blade-component-previewer.css') }}">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.3/ace.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.3/ext-language_tools.min.js"></script>
-
-    {{-- <script src="{{ url('blade-component-previewer/public/js/ace.js') }}"></script>
-    <script src="{{ url('blade-component-previewer/public/js/language_tools.js') }}"></script> --}}
+    <script src="{{ url('blade-component-previewer/public/js/ace.js') }}"></script>
+    <script src="{{ url('blade-component-previewer/public/js/ext-language_tools.js') }}"></script>
 
     <script>
         const components = @json($components);
