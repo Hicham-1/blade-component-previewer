@@ -89,7 +89,7 @@ const renderPreview = debounce(() => {
             doc.close();
         })
         .catch(err => console.error('Preview error:', err));
-}, 1000);
+}, 500);
 
 // ---- Component Loader ---- //
 
