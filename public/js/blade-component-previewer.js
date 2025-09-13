@@ -97,6 +97,15 @@ function loadComponent(name) {
     currentComponent = components.find(c => c.name === name);
     if (!currentComponent) return;
 
+    const currentComponentName = currentComponent.name;
+    const allComponents = document.querySelectorAll('[data-name]');
+    allComponents.forEach(el => el.classList.remove('current-component'));
+    const currentElement = document.querySelector(`[data-name="${currentComponentName}"]`);
+    if (currentElement) {
+        currentElement.classList.add('current-component');
+    }
+
+
     htmlInput.value = currentComponent.blade || '';
     editorBlade.setValue(currentComponent.blade || '');
 
@@ -130,6 +139,10 @@ function addPropRow(key = '', def = '', nullable = false, type = 'string') {
     inputs[2].checked = !!nullable;
 
     deleteBtn.addEventListener('click', e => {
+        if (!confirm('Are you sure you want to delete this Prop?')) {
+            return;
+        }
+
         e.preventDefault();
         e.target.closest('.container__input-container').remove();
         renderPreview();
@@ -253,6 +266,10 @@ saveBtn.addEventListener('click', () => {
 deleteBtn.addEventListener('click', () => {
     if (!currentComponent) {
         alert("No component selected");
+        return;
+    }
+
+    if (!confirm('Are you sure you want to delete this Component?')) {
         return;
     }
 

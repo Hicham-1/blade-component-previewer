@@ -26,13 +26,15 @@
 <body>
     <div class="container__zone-1">
         <h3>Components</h3>
-        <div id="component-btns">
+        <div id="component-btns" class="container__zone-1--row">
         </div>
 
         <h3>Actions</h3>
-        <button id="new-component-btn" class="container__button">➕ New Component</button>
-        <button id="save-component-btn" class="container__button">💾 Save Component</button>
-        <button id="delete-component-btn" class="container__button">🗑️ Delete Component</button>
+        <div class="container__zone-1--row">
+            <button id="new-component-btn">New Component</button>
+            <button id="save-component-btn">Save Component</button>
+            <button id="delete-component-btn">Delete Component</button>
+        </div>
 
         <h3>Props</h3>
         <div id="inputs-container"></div>
@@ -55,7 +57,7 @@
 
     <div class="container__zone-2">
         <span class="container__zone-2--flex">
-            <h2>Live Preview</h2>
+            <h3>Live Preview</h3>
             <div id="loader"></div>
         </span>
 
@@ -74,8 +76,8 @@
                 <option value="array">array</option>
                 <option value="mixed">mixed</option>
             </select>
-            <input type="text" class="container__input" placeholder="Default">
-            <input type="checkbox" class="container__input">
+            <input type="text" class="container__input" placeholder="Default value">
+            <input data-title="Nullable" type="checkbox" class="container__input">
             <button class="delete-prop">Delete</button>
         </div>
     </template>

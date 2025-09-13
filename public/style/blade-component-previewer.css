@@ -6,12 +6,106 @@ body {
     margin: 0;
 }
 
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    /* Green gradient */
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(34, 197, 94, 0.25);
+}
+
+button:hover {
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    box-shadow: 0 6px 14px rgba(34, 197, 94, 0.35);
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(34, 197, 94, 0.25);
+}
+
+button:disabled {
+    background: #a7f3d0;
+    color: #047857;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+
+button.delete-prop {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    /* Red gradient */
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(239, 68, 68, 0.25);
+}
+
+button.delete-prop:hover {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    box-shadow: 0 6px 14px rgba(239, 68, 68, 0.35);
+    transform: translateY(-2px);
+}
+
+button.delete-prop:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25);
+}
+
+button.delete-prop:disabled {
+    background: #fecaca;
+    color: #991b1b;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+
+
 .container__zone-1 {
     flex: 1;
     padding: 10px;
     border-right: 1px solid #ddd;
     overflow-y: auto;
 }
+
+.container__zone-1--row {
+    display: flex;
+    gap: 10px;
+}
+
+h3 {
+    width: fit-content;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #16a34a;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+h3::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: #16a34a;
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
 
 .container__zone-2 {
     flex: 1;
@@ -24,32 +118,91 @@ body {
     border: none;
 }
 
-.component-btn {
-    display: block;
-    margin-bottom: 5px;
-    cursor: pointer;
-}
-
 .container__editor-wrap {
     margin-top: 10px;
 }
 
-textarea {
-    width: 100%;
-    margin-bottom: 5px;
-    height: 80px;
-}
-
 .container__input-container {
     display: flex;
-    gap: 5px;
-    margin-bottom: 5px;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding: 10px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #f9fafb;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.container__input {
-    flex: 1;
-    padding: 2px 5px;
+.container__input-container:hover {
+    border-color: #16a34a;
+    /* green highlight */
+    box-shadow: 0 2px 6px rgba(22, 163, 74, 0.1);
 }
+
+.container__input,
+.container__input-container select {
+    flex: 1;
+    padding: 6px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.container__input:focus,
+.container__input-container select:focus {
+    outline: none;
+    border-color: #16a34a;
+    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.25);
+}
+
+.container__input-container input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.current-component {
+    border: 3px solid #3a9c5e;
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(22, 163, 74, 0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+[data-title] {
+    position: relative;
+    cursor: pointer;
+}
+
+/* Tooltip box */
+[data-title]::after {
+    content: attr(data-title);
+    position: absolute;
+    bottom: 125%;
+    /* show above element */
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: #111827;
+    color: #fff;
+    font-size: 12px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+    z-index: 1000;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+/* Show tooltip on hover */
+[data-title]:hover::after {
+    opacity: 1;
+}
+
 
 #loader {
     border: 5px solid #f3f3f3;
