@@ -1,72 +1,80 @@
 body {
-    margin: 0px;
-    padding: 0px;
-}
-
-.container {
+    font-family: sans-serif;
     display: flex;
-    width: 100vw;
     height: 100vh;
     overflow: hidden;
-
+    margin: 0;
 }
 
 .container__zone-1 {
-    width: 45%;
-    overflow-x: hidden;
+    flex: 1;
+    padding: 10px;
+    border-right: 1px solid #ddd;
     overflow-y: auto;
 }
 
 .container__zone-2 {
-    width: 55%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-left: 1px solid black;
+    flex: 1;
+    padding: 10px;
+}
+
+#preview {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.component-btn {
+    display: block;
+    margin-bottom: 5px;
+    cursor: pointer;
 }
 
 .container__editor-wrap {
-    display: flex;
-    flex-direction: column;
+    margin-top: 10px;
 }
 
 textarea {
     width: 100%;
-    height: 40vh;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 14px;
-    border-top: 1px solid #ddd;
-    resize: none;
-    margin: 0px;
-    padding: 0.5rem;
-}
-
-iframe {
-    width: 100%;
-    height: 50vh;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    background: #fff;
+    margin-bottom: 5px;
+    height: 80px;
 }
 
 .container__input-container {
     display: flex;
+    gap: 5px;
+    margin-bottom: 5px;
 }
 
 .container__input {
-    padding: 0.6rem 1rem;
-    font-size: 16px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    outline: none;
-    transition: all 0.2s ease;
+    flex: 1;
+    padding: 2px 5px;
 }
 
-.container__button {
-    padding: 0.6rem 1.2rem;
-    border-radius: 6px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
+#loader {
+    border: 5px solid #f3f3f3;
+    /* Light grey background */
+    border-top: 5px solid #3498db;
+    /* Blue spinner */
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    animation: spin 1s linear infinite;
+    margin-inline-start: 20px;
+    /* center horizontally */
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.container__zone-2--flex {
+    display: flex;
+    align-items: center;
 }
