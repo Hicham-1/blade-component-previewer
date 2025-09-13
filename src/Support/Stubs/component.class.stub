@@ -13,12 +13,12 @@ class {{className}} extends Component
 
     public function render()
     {
-        $bladeView = view('components.{{name}}');
+        $bladeView = view('{{viewName}}');
 
         // Automatically push CSS/JS to the stack
         $bladeView->with([
-            'componentCss' => asset("css/components/{{name}}.css"),
-            'componentJs' => asset("js/components/{{name}}.js"),
+            'componentCss' => asset("{{cssPath}}/{{name}}.css"),
+            'componentJs' => asset("{{jsPath}}/{{name}}.js"),
         ]);
 
         return $bladeView;

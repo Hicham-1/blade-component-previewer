@@ -19,13 +19,13 @@ class ComponentManager
 
     public function __construct()
     {
-        $this->bladePath = resource_path('views/components');
-        $this->cssPath = public_path('css/components');
-        $this->jsPath = public_path('js/components');
+        $this->bladePath = resource_path('views/' . config('blade-component-previewer.bladePath'));
+        $this->cssPath = public_path(config('blade-component-previewer.cssPath'));
+        $this->jsPath = public_path(config('blade-component-previewer.jsPath'));
         $this->stubsPath = __DIR__ . '/../Support/Stubs';
 
-        $this->classNamespace = 'App\\View\\Components\\BladeComponentPreviewer';
-        $this->classPath = app_path('View/Components/BladeComponentPreviewer');
+        $this->classNamespace = config('blade-component-previewer.classNamespace');
+        $this->classPath = app_path(config('blade-component-previewer.classPath'));
 
         $this->ensureDirectoriesExist();
     }
@@ -130,22 +130,24 @@ class ComponentManager
 
         // Create Blade
         $bladeContent = $bladeContent ?? File::get("{$this->stubsPath}/component.blade.stub");
-        $bladeContent = str_replace(['{{className}}', '{{name}}'], [$className, $name], $bladeContent);
+        $bladeContent = str_replace('{{name}}', $name, $bladeContent);
         File::put($bladeFile, $bladeContent);
 
         // Create CSS
         $cssContent = $cssContent ?? File::get("{$this->stubsPath}/component.css.stub");
-        $cssContent = str_replace(['{{className}}', '{{name}}'], [$className, $name], $cssContent);
+        $cssContent = str_replace('{{name}}', $name, $cssContent);
         File::put($cssFile, $cssContent);
 
         // Create JS
         $jsContent = $jsContent ?? File::get("{$this->stubsPath}/component.js.stub");
-        $jsContent = str_replace(['{{className}}', '{{name}}'], [$className, $name], $jsContent);
+        $jsContent = str_replace('{{name}}', $name, $jsContent);
         File::put($jsFile, $jsContent);
 
         // Create PHP class
         $classStub = File::get("{$this->stubsPath}/component.class.stub");
-        $classStub = str_replace(['{{namespace}}', '{{className}}', '{{name}}'], [$this->classNamespace, $className, $name], $classStub);
+        $viewName = str_replace('/', '.', config('blade-component-previewer.bladePath'));
+        $viewName = $viewName . '.' . $name;
+        $classStub = str_replace(['{{namespace}}', '{{className}}', '{{name}}', '{{viewName}}', '{{cssPath}}', '{{jsPath}}'], [$this->classNamespace, $className, $name, $viewName, config('blade-component-previewer.cssPath'), config('blade-component-previewer.jsPath')], $classStub);
         File::put($classFile, $classStub);
 
 
