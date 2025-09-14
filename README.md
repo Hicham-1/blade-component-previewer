@@ -4,6 +4,8 @@
 ## Contents
 - [Blade Component Previewer](#blade-component-previewer)
   - [Contents](#contents)
+    - [Image one:](#image-one)
+    - [Image two:](#image-two)
   - [Features](#features)
   - [Installation](#installation)
   - [Usage](#usage)
@@ -13,8 +15,10 @@
 
 A Laravel package for visually creating, editing, and previewing Blade components with live editing of Blade, CSS, and JS.
 
+### Image one:
 ![Blade Component Previewer 1](./public/docs/image1.png)
 
+### Image two:
 ![Blade Component Previewer 2](./public/docs/image2.png)
 
 ## Features
