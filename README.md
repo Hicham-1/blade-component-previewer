@@ -57,10 +57,10 @@ A Laravel package for visually creating, editing, and previewing Blade component
 - **Create a new component:**  
   Click "New Component", enter a name (e.g., `ButtonComponent`), and start editing.  
   When you create a new component, the following files will be generated automatically (the paths based on config file):
-  - Blade view file (`resources/views/components/{name}.blade.php`)
-  - CSS file (`public/css/components/{name}.css`)
-  - JS file (`public/js/components/{name}.js`)
-  - PHP class (`app/View/Components/BladeComponentPreviewer/{Name}.php`)
+  - Blade view file (`resources/views/components/{name}.blade.php`).
+  - CSS file (`public/css/components/{name}.css`).
+  - JS file (`public/js/components/{name}.js`).
+  - PHP class (`app/View/Components/BladeComponentPreviewer/{Name}.php`).
 
 - **Edit Blade, CSS, JS:**  
   Use the in-browser editors to modify your component files.
