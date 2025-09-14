@@ -1,8 +1,8 @@
-# Blade Component Previewer
+# Blade Component Previewer 🏗️
 
 <!-- TOC -->
 ## Contents
-- [Blade Component Previewer](#blade-component-previewer)
+- [Blade Component Previewer 🏗️](#blade-component-previewer-️)
   - [Contents](#contents)
     - [Image one:](#image-one)
     - [Image two:](#image-two)
