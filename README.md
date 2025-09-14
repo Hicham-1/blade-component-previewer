@@ -1,7 +1,5 @@
 # Blade Component Previewer
 
-![Blade Component Previewer](./docs/banner.png)
-
 <!-- TOC -->
 ## Contents
 - [Blade Component Previewer](#blade-component-previewer)
@@ -14,6 +12,10 @@
 <!-- /TOC -->
 
 A Laravel package for visually creating, editing, and previewing Blade components with live editing of Blade, CSS, and JS.
+
+![Blade Component Previewer 1](./public/docs/image1.png)
+
+![Blade Component Previewer 2](./public/docs/image2.png)
 
 ## Features
 
@@ -53,7 +55,12 @@ A Laravel package for visually creating, editing, and previewing Blade component
 ## Usage
 
 - **Create a new component:**  
-  Click "New Component", enter a name (e.g., `ButtonComponent`), and start editing.
+  Click "New Component", enter a name (e.g., `ButtonComponent`), and start editing.  
+  When you create a new component, the following files will be generated automatically (the paths based on config file):
+  - Blade view file (`resources/views/components/{name}.blade.php`)
+  - CSS file (`public/css/components/{name}.css`)
+  - JS file (`public/js/components/{name}.js`)
+  - PHP class (`app/View/Components/BladeComponentPreviewer/{Name}.php`)
 
 - **Edit Blade, CSS, JS:**  
   Use the in-browser editors to modify your component files.
@@ -73,11 +80,11 @@ You can customize paths and namespaces in `config/blade-component-previewer.php`
 
 ```php
 return [
-    'bladePath' => 'components', // Blade views directory
-    'cssPath' => 'style',        // Public CSS directory
-    'jsPath' => 'js',            // Public JS directory
-    'classNamespace' => 'App\\View\\Components',
-    'classPath' => 'View/Components',
+    'bladePath' => 'components',      // Blade views directory
+    'cssPath' => 'css/components',    // Public CSS directory
+    'jsPath' => 'js/components',      // Public JS directory
+    'classNamespace' => 'App\\View\\Components\\BladeComponentPreviewer',
+    'classPath' => 'View/Components/BladeComponentPreviewer',
 ];
 ```
 
