@@ -1,5 +1,9 @@
-src/* linguist-language=PHP
+# Force all PHP and Blade files to count as PHP
+*.php linguist-language=PHP
+*.blade.php linguist-language=PHP
 
+# Exclude these from stats
 config/* linguist-vendored
 resources/* linguist-vendored
 tests/* linguist-vendored
+database/* linguist-vendored
