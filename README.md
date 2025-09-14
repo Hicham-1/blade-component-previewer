@@ -58,6 +58,7 @@ A Laravel package for visually creating, editing, and previewing Blade component
     Visit `/blade-component-previewer` in your browser (while your dev server is running).
 
 4. **⚠️ Add @stack to your project**
+
     Add `@stack` (e.g. `@stack('styles')` and `@stack('scripts')`) to your layout before body
 
 ## Usage
