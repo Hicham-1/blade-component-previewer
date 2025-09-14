@@ -1,0 +1,5 @@
+src/* linguist-language=PHP
+
+config/* linguist-vendored
+resources/* linguist-vendored
+tests/* linguist-vendored
