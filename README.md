@@ -49,7 +49,8 @@ A Laravel package for visually creating, editing, and previewing Blade component
 2. **Publish the config (optional):**
 
     ```sh
-    php artisan vendor:publish --provider="H1ch4m\BladeComponentPreviewer\BladeComponentPreviewerServiceProvider"
+    php artisan vendor:publish --provider="H1ch4m\BladeComponentPreviewer\BladeComponentPreviewerServiceProvider" --tag=config
+
     ```
 
 3. **Access the previewer:**
